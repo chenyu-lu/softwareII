@@ -1,0 +1,23 @@
+server:
+  port: 8080
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/user_credit_db?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=Asia/Shanghai
+    username: campus
+    password: Campus@2026!
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+mybatis-plus:
+  configuration:
+    map-underscore-to-camel-case: true
+jwt:
+  secret: abcdefghijklmnopqrstuvwxyz1234567890ABCDEFGH
+  expire: 7
+springfox:
+  documentation:
+    swagger-ui:
+      enabled: false
+
+
