@@ -3,122 +3,324 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>校园互助平台 - CampusHub</title>
+    <title>校园互助平台</title>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
             font-family: 'Microsoft YaHei', Arial, sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh; padding: 20px;
+            min-height: 100vh;
+            padding: 20px;
         }
-        .container { max-width: 1200px; margin: 0 auto; }
-        .header { text-align: center; color: white; margin-bottom: 20px; }
-        .header h1 { font-size: 32px; margin-bottom: 5px; }
-        .header p { opacity: 0.85; }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            font-size: 36px;
+            margin-bottom: 10px;
+        }
 
         .card {
-            background: white; border-radius: 10px; padding: 24px;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.15); margin-bottom: 16px;
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            margin-bottom: 20px;
         }
-        .card h2 { margin-bottom: 16px; color: #333; font-size: 18px; }
 
-        .form-group { margin-bottom: 14px; }
-        .form-group label { display: block; margin-bottom: 5px; color: #333; font-weight: bold; font-size: 13px; }
-        .form-group input, .form-group textarea, .form-group select {
-            width: 100%; padding: 10px 12px; border: 2px solid #e0e0e0;
-            border-radius: 6px; font-size: 14px; transition: border-color 0.2s;
+        .form-group {
+            margin-bottom: 20px;
         }
-        .form-group input:focus, .form-group textarea:focus, .form-group select:focus {
-            outline: none; border-color: #667eea;
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: bold;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 5px;
+            font-size: 14px;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #667eea;
         }
 
         .btn {
-            padding: 10px 22px; border: none; border-radius: 6px; font-size: 14px;
-            cursor: pointer; transition: all 0.2s; margin-right: 8px;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-right: 10px;
         }
-        .btn-primary { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; }
-        .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 4px 12px rgba(102,126,234,0.4); }
-        .btn-danger { background: #e74c3c; color: white; }
-        .btn-success { background: #27ae60; color: white; }
-        .btn-secondary { background: #f0f0f0; color: #333; }
-        .btn-sm { padding: 5px 12px; font-size: 12px; }
 
-        .tabs { display: flex; gap: 6px; margin-bottom: 16px; flex-wrap: wrap; }
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-secondary {
+            background: #f0f0f0;
+            color: #333;
+        }
+
+        .btn-secondary:hover {
+            background: #e0e0e0;
+        }
+
+        .btn-danger {
+            background: #e74c3c;
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background: #c0392b;
+        }
+
+        .btn-success {
+            background: #27ae60;
+            color: white;
+        }
+
+        .btn-sm {
+            padding: 6px 14px;
+            font-size: 13px;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
         .tab {
-            padding: 8px 18px; background: #f0f0f0; border: none;
-            border-radius: 6px; cursor: pointer; transition: all 0.2s; font-size: 13px;
+            padding: 10px 20px;
+            background: #f0f0f0;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
         }
-        .tab.active { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; }
-        .tab-content { display: none; }
-        .tab-content.active { display: block; }
 
-        .msg { padding: 12px 16px; border-radius: 6px; margin-bottom: 14px; font-size: 13px; }
-        .msg.success { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
-        .msg.error { background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
-        .hidden { display: none !important; }
-
-        /* 消息模块布局 */
-        .msg-layout { display: flex; gap: 16px; height: 480px; }
-        .conv-list { width: 280px; border-right: 1px solid #e0e0e0; overflow-y: auto; flex-shrink: 0; }
-        .conv-item {
-            padding: 12px; cursor: pointer; border-bottom: 1px solid #f0f0f0;
-            transition: background 0.15s;
+        .tab.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
         }
-        .conv-item:hover { background: #f8f9fa; }
-        .conv-item.active { background: #eef0ff; border-left: 3px solid #667eea; }
-        .conv-item .conv-name { font-weight: bold; font-size: 14px; }
-        .conv-item .conv-last { color: #999; font-size: 12px; margin-top: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-        .conv-item .conv-badge {
-            display: inline-block; background: #e74c3c; color: white;
-            border-radius: 10px; padding: 2px 8px; font-size: 11px; float: right;
+
+        .tab-content {
+            display: none;
         }
-        .chat-area { flex: 1; display: flex; flex-direction: column; }
-        .chat-msgs { flex: 1; overflow-y: auto; padding: 12px; background: #fafafa; border-radius: 8px; margin-bottom: 12px; }
-        .chat-msg { margin-bottom: 12px; max-width: 70%; }
-        .chat-msg.mine { margin-left: auto; text-align: right; }
-        .chat-msg .bubble {
-            display: inline-block; padding: 10px 14px; border-radius: 14px;
-            font-size: 14px; word-break: break-word;
+
+        .tab-content.active {
+            display: block;
         }
-        .chat-msg.mine .bubble { background: #667eea; color: white; border-bottom-right-radius: 4px; }
-        .chat-msg.other .bubble { background: #e8e8e8; color: #333; border-bottom-left-radius: 4px; }
-        .chat-msg .meta { font-size: 11px; color: #999; margin-top: 2px; }
-        .chat-input-row { display: flex; gap: 8px; }
-        .chat-input-row input { flex: 1; }
 
-        /* 通用表格 */
-        table { width: 100%; border-collapse: collapse; font-size: 13px; }
-        th, td { padding: 10px 12px; text-align: left; border-bottom: 1px solid #eee; }
-        th { background: #f8f9fa; font-weight: bold; color: #555; }
-        tr:hover { background: #f8f9fa; }
-
-        /* 统计卡片 */
-        .stat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 14px; margin-bottom: 20px; }
-        .stat-card { background: #f8f9fa; border-radius: 8px; padding: 18px; text-align: center; }
-        .stat-card .num { font-size: 28px; font-weight: bold; color: #667eea; }
-        .stat-card .lbl { font-size: 12px; color: #888; margin-top: 4px; }
-
-        .nav-bar {
-            background: white; padding: 12px 24px; border-radius: 10px; margin-bottom: 16px;
-            display: flex; justify-content: space-between; align-items: center;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        .message {
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
         }
-        .nav-bar .user-greeting { color: #667eea; font-weight: bold; }
 
-        .row { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
-        .badge {
-            display: inline-block; padding: 2px 8px; border-radius: 10px; font-size: 11px;
+        .message.success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .message.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .user-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .info-item {
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 5px;
+        }
+
+        .info-item label {
+            color: #666;
+            font-size: 12px;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .info-item value {
+            color: #333;
+            font-size: 18px;
             font-weight: bold;
         }
+
+        .rating-list {
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .rating-item {
+            padding: 15px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .rating-item:last-child {
+            border-bottom: none;
+        }
+
+        .rating-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+
+        .rating-score {
+            color: #ffc107;
+            font-size: 20px;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .nav-bar {
+            background: white;
+            padding: 15px 30px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .nav-bar .user-greeting {
+            color: #667eea;
+            font-weight: bold;
+        }
+
+        /* ====== 新增样式：模块导航 ====== */
+        .module-tabs {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 24px;
+            background: white;
+            padding: 10px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .module-tab {
+            padding: 12px 24px;
+            background: transparent;
+            border: 2px solid transparent;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 15px;
+            font-weight: bold;
+            color: #666;
+            transition: all 0.3s;
+        }
+
+        .module-tab:hover {
+            color: #667eea;
+            background: #f8f9ff;
+        }
+
+        .module-tab.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-color: transparent;
+            box-shadow: 0 3px 10px rgba(102, 126, 234, 0.3);
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: bold;
+        }
+
         .badge-admin { background: #e74c3c; color: white; }
         .badge-user { background: #3498db; color: white; }
-        .badge-active { background: #27ae60; color: white; }
-        .badge-banned { background: #95a5a6; color: white; }
+        .badge-on { background: #27ae60; color: white; }
+        .badge-off { background: #95a5a6; color: white; }
 
-        @media (max-width: 768px) {
-            .msg-layout { flex-direction: column; height: auto; }
-            .conv-list { width: 100%; border-right: none; border-bottom: 1px solid #e0e0e0; max-height: 200px; }
+        /* ====== 消息布局 ====== */
+        .msg-layout { display: flex; gap: 0; height: 450px; border: 1px solid #e0e0e0; border-radius: 8px; overflow: hidden; }
+        .conv-panel { width: 280px; background: #fafafa; border-right: 1px solid #e0e0e0; overflow-y: auto; flex-shrink: 0; }
+        .conv-item {
+            padding: 14px 16px; cursor: pointer; border-bottom: 1px solid #eee;
+            transition: background 0.15s;
         }
+        .conv-item:hover { background: #f0f0ff; }
+        .conv-item.active { background: #e8ecff; border-left: 3px solid #667eea; }
+        .conv-item .conv-name { font-weight: bold; font-size: 14px; color: #333; }
+        .conv-item .conv-last { color: #999; font-size: 12px; margin-top: 4px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 220px; }
+        .conv-item .conv-badge { float: right; background: #e74c3c; color: white; border-radius: 10px; padding: 1px 7px; font-size: 11px; }
+        .chat-panel { flex: 1; display: flex; flex-direction: column; }
+        .chat-msgs { flex: 1; overflow-y: auto; padding: 16px; background: #fafafa; }
+        .chat-msg { margin-bottom: 14px; max-width: 70%; }
+        .chat-msg.mine { margin-left: auto; text-align: right; }
+        .chat-msg .bubble { display: inline-block; padding: 10px 16px; border-radius: 16px; font-size: 14px; word-break: break-word; }
+        .chat-msg.mine .bubble { background: linear-gradient(135deg, #667eea, #764ba2); color: white; border-bottom-right-radius: 4px; }
+        .chat-msg.other .bubble { background: #e8e8e8; color: #333; border-bottom-left-radius: 4px; }
+        .chat-msg .meta { font-size: 11px; color: #999; margin-top: 3px; }
+        .chat-bar { display: flex; gap: 8px; padding: 12px; border-top: 1px solid #e0e0e0; background: white; }
+        .chat-bar input { flex: 1; padding: 10px 14px; border: 2px solid #e0e0e0; border-radius: 20px; font-size: 14px; outline: none; }
+        .chat-bar input:focus { border-color: #667eea; }
+
+        /* ====== 统计卡片 ====== */
+        .stat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; }
+        .stat-card { background: #f8f9fa; border-radius: 8px; padding: 20px; text-align: center; border-top: 4px solid #667eea; }
+        .stat-card .num { font-size: 32px; font-weight: bold; color: #667eea; }
+        .stat-card .lbl { font-size: 13px; color: #888; margin-top: 4px; }
+
+        /* ====== 表格 ====== */
+        .data-table { width: 100%; border-collapse: collapse; font-size: 13px; margin-top: 12px; }
+        .data-table th, .data-table td { padding: 10px 14px; text-align: left; border-bottom: 1px solid #eee; }
+        .data-table th { background: #f8f9fa; font-weight: bold; color: #555; font-size: 12px; text-transform: uppercase; }
+        .data-table tr:hover { background: #f8f9ff; }
+
+        .row { display: flex; gap: 12px; align-items: flex-end; flex-wrap: wrap; }
+        .row-center { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
     </style>
 </head>
 <body>
@@ -130,61 +332,72 @@
 
     <!-- 导航栏 -->
     <div id="navBar" class="nav-bar hidden">
-        <div class="row">
+        <div>
             <span class="user-greeting">欢迎，<span id="currentUser"></span>！</span>
-            <span style="color:#666;">信用分：<b style="color:#667eea;" id="creditScore"></b></span>
-            <span id="roleBadge"></span>
+            <span style="margin-left: 20px; color: #666;">信用分：<span id="creditScore" style="color: #667eea; font-weight: bold;"></span></span>
+            <span id="roleBadge" style="margin-left: 12px;"></span>
         </div>
         <button class="btn btn-secondary" onclick="logout()">退出登录</button>
     </div>
 
-    <!-- ========== 未登录 ========== -->
+    <!-- 未登录界面 -->
     <div id="authSection" class="card">
         <div class="tabs">
-            <button class="tab active" onclick="switchAuthTab('login')">登录</button>
-            <button class="tab" onclick="switchAuthTab('register')">注册</button>
+            <button class="tab active" onclick="switchTab('login')">登录</button>
+            <button class="tab" onclick="switchTab('register')">注册</button>
         </div>
+
         <div id="loginTab" class="tab-content active">
             <div id="loginMessage"></div>
             <form onsubmit="handleLogin(event)">
-                <div class="form-group"><label>用户名</label><input type="text" id="loginUsername" required placeholder="请输入用户名"></div>
-                <div class="form-group"><label>密码</label><input type="password" id="loginPassword" required placeholder="请输入密码"></div>
+                <div class="form-group">
+                    <label>用户名</label>
+                    <input type="text" id="loginUsername" required placeholder="请输入用户名">
+                </div>
+                <div class="form-group">
+                    <label>密码</label>
+                    <input type="password" id="loginPassword" required placeholder="请输入密码">
+                </div>
                 <button type="submit" class="btn btn-primary">登录</button>
             </form>
         </div>
+
         <div id="registerTab" class="tab-content">
             <div id="registerMessage"></div>
             <form onsubmit="handleRegister(event)">
-                <div class="form-group"><label>用户名</label><input type="text" id="regUsername" required></div>
-                <div class="form-group"><label>密码</label><input type="password" id="regPassword" required></div>
-                <div class="form-group"><label>邮箱</label><input type="email" id="regEmail"></div>
-                <div class="form-group"><label>真实姓名</label><input type="text" id="regRealName"></div>
-                <div class="form-group"><label>手机号</label><input type="tel" id="regPhone"></div>
+                <div class="form-group"><label>用户名</label><input type="text" id="regUsername" required placeholder="请输入用户名"></div>
+                <div class="form-group"><label>密码</label><input type="password" id="regPassword" required placeholder="请输入密码"></div>
+                <div class="form-group"><label>邮箱</label><input type="email" id="regEmail" placeholder="请输入邮箱"></div>
+                <div class="form-group"><label>真实姓名</label><input type="text" id="regRealName" placeholder="请输入真实姓名"></div>
+                <div class="form-group"><label>手机号</label><input type="tel" id="regPhone" placeholder="请输入手机号"></div>
                 <button type="submit" class="btn btn-primary">注册</button>
             </form>
         </div>
     </div>
 
-    <!-- ========== 已登录：顶部导航 ========== -->
+    <!-- 已登录界面 -->
     <div id="mainSection" class="hidden">
-        <div class="tabs" style="background:white;padding:8px;border-radius:10px;box-shadow:0 4px 12px rgba(0,0,0,0.08);">
-            <button class="tab active" onclick="switchMainTab('profile')">&#x1f464; 个人中心</button>
-            <button class="tab" onclick="switchMainTab('message')">&#x1f4ac; 消息中心</button>
-            <button class="tab" onclick="switchMainTab('match')">&#x1f91d; 智能匹配</button>
-            <button class="tab admin-only hidden" id="adminTabBtn" onclick="switchMainTab('admin')">&#x1f6e1; 后台管理</button>
+        <!-- 模块导航标签 -->
+        <div class="module-tabs">
+            <button class="module-tab active" onclick="switchModule('profile')">&#x1f464; 个人中心</button>
+            <button class="module-tab" onclick="switchModule('message')">&#x1f4ac; 消息中心</button>
+            <button class="module-tab" onclick="switchModule('match')">&#x1f91d; 智能匹配</button>
+            <button class="module-tab admin-only hidden" id="adminModuleBtn" onclick="switchModule('admin')">&#x1f6e1; 后台管理</button>
         </div>
 
-        <!-- ===== 个人中心 ===== -->
-        <div id="tab-profile" class="tab-content active">
+        <!-- ========== 个人中心（原版内容保留） ========== -->
+        <div id="module-profile" class="tab-content active">
+            <!-- 个人资料 -->
             <div class="card">
-                <h2>&#x1f464; 个人资料</h2>
-                <div id="profileInfo" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;"></div>
-                <div style="margin-top:16px;">
+                <h2 style="margin-bottom: 20px; color: #333;">&#x1f464; 个人资料</h2>
+                <div id="profileInfo" class="user-info"></div>
+                <div style="margin-top: 20px;">
                     <button class="btn btn-primary" onclick="showEditProfile()">编辑资料</button>
                     <button class="btn btn-secondary" onclick="showChangePassword()">修改密码</button>
                 </div>
-                <div id="editProfileForm" class="hidden" style="margin-top:16px;">
-                    <h3>编辑资料</h3>
+
+                <div id="editProfileForm" class="hidden" style="margin-top: 20px;">
+                    <h3 style="margin-bottom: 15px;">编辑资料</h3>
                     <div class="form-group"><label>邮箱</label><input type="email" id="editEmail"></div>
                     <div class="form-group"><label>真实姓名</label><input type="text" id="editRealName"></div>
                     <div class="form-group"><label>手机号</label><input type="tel" id="editPhone"></div>
@@ -192,117 +405,134 @@
                     <button class="btn btn-primary" onclick="updateProfile()">保存</button>
                     <button class="btn btn-secondary" onclick="hideEditProfile()">取消</button>
                 </div>
-                <div id="changePasswordForm" class="hidden" style="margin-top:16px;">
-                    <h3>修改密码</h3>
+
+                <div id="changePasswordForm" class="hidden" style="margin-top: 20px;">
+                    <h3 style="margin-bottom: 15px;">修改密码</h3>
                     <div class="form-group"><label>原密码</label><input type="password" id="oldPassword"></div>
                     <div class="form-group"><label>新密码</label><input type="password" id="newPassword"></div>
-                    <button class="btn btn-primary" onclick="changePassword()">确认</button>
+                    <button class="btn btn-primary" onclick="changePassword()">确认修改</button>
                     <button class="btn btn-secondary" onclick="hideChangePassword()">取消</button>
                 </div>
             </div>
+
+            <!-- 评分功能 -->
             <div class="card">
-                <h2>&#x2b50; 互相评分</h2>
+                <h2 style="margin-bottom: 20px; color: #333;">&#x2b50; 互相评分</h2>
                 <div id="ratingMessage"></div>
                 <form onsubmit="handleRating(event)">
-                    <div class="form-group"><label>被评分人ID</label><input type="number" id="rateUserId" required></div>
-                    <div class="form-group"><label>评分 (1-5)</label><input type="number" id="rateScore" min="1" max="5" required></div>
-                    <div class="form-group"><label>评价内容</label><textarea id="rateContent" rows="2"></textarea></div>
+                    <div class="form-group"><label>被评分人ID</label><input type="number" id="rateUserId" required placeholder="请输入要评分的用户ID"></div>
+                    <div class="form-group"><label>评分（1-5星）</label><input type="number" id="rateScore" min="1" max="5" required placeholder="1-5"></div>
+                    <div class="form-group"><label>评价内容</label><textarea id="rateContent" rows="3" placeholder="请输入评价内容"></textarea></div>
                     <button type="submit" class="btn btn-primary">提交评分</button>
                 </form>
             </div>
+
+            <!-- 评分记录 -->
             <div class="card">
-                <h2>&#x1f4cb; 收到的评分</h2>
-                <div id="receivedRatings"></div>
+                <h2 style="margin-bottom: 20px; color: #333;">&#x1f4cb; 收到的评分</h2>
+                <div id="receivedRatings" class="rating-list"></div>
             </div>
         </div>
 
-        <!-- ===== 消息中心 ===== -->
-        <div id="tab-message" class="tab-content">
-            <div class="card" style="padding:16px;">
+        <!-- ========== 消息中心 ========== -->
+        <div id="module-message" class="tab-content">
+            <div class="card" style="padding: 16px;">
                 <div class="msg-layout">
-                    <div class="conv-list" id="conversationList">
-                        <p style="text-align:center;color:#999;padding:20px;">加载中...</p>
+                    <div class="conv-panel" id="conversationList">
+                        <p style="text-align:center;color:#999;padding:30px;">加载中...</p>
                     </div>
-                    <div class="chat-area">
+                    <div class="chat-panel">
                         <div class="chat-msgs" id="chatMessages">
-                            <p style="text-align:center;color:#999;padding:40px;">&#x1f4ad; 选择一个会话开始聊天</p>
+                            <p style="text-align:center;color:#999;padding:60px 0;">&#x1f4ad; 选择一个会话开始聊天</p>
                         </div>
-                        <div class="chat-input-row">
-                            <input type="text" id="msgInput" placeholder="输入消息..." disabled onkeydown="if(event.key==='Enter')sendMsg()">
-                            <button class="btn btn-primary" id="msgSendBtn" disabled onclick="sendMsg()">发送</button>
+                        <div class="chat-bar">
+                            <input type="text" id="msgInput" placeholder="输入消息，按 Enter 发送..." disabled onkeydown="if(event.key==='Enter')sendMsg()">
+                            <button class="btn btn-primary btn-sm" id="msgSendBtn" disabled onclick="sendMsg()">发送</button>
                         </div>
                     </div>
                 </div>
             </div>
+
             <div class="card">
-                <h2>&#x2709; 发送新消息</h2>
+                <h2 style="margin-bottom: 16px; color: #333;">&#x2709; 发送新消息</h2>
                 <div id="sendMsgFeedback"></div>
-                <div class="row" style="align-items:flex-end;">
-                    <div class="form-group" style="margin-bottom:0;"><label>接收者ID</label><input type="number" id="newMsgReceiver" style="width:140px;"></div>
-                    <div class="form-group" style="margin-bottom:0;"><label>消息内容</label><input type="text" id="newMsgContent" style="width:300px;"></div>
-                    <button class="btn btn-primary" onclick="sendNewMsg()" style="margin-bottom:14px;">发送</button>
+                <div class="row">
+                    <div class="form-group" style="flex:0 0 160px; margin-bottom:0;">
+                        <label>接收者ID</label><input type="number" id="newMsgReceiver" placeholder="用户ID">
+                    </div>
+                    <div class="form-group" style="flex:1; margin-bottom:0;">
+                        <label>消息内容</label><input type="text" id="newMsgContent" placeholder="输入消息内容">
+                    </div>
+                    <div style="padding-top: 28px;">
+                        <button class="btn btn-primary" onclick="sendNewMsg()">发送</button>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <!-- ===== 智能匹配 ===== -->
-        <div id="tab-match" class="tab-content">
+        <!-- ========== 智能匹配 ========== -->
+        <div id="module-match" class="tab-content">
             <div class="card">
-                <h2>&#x1f4ca; 执行匹配</h2>
+                <h2 style="margin-bottom: 16px; color: #333;">&#x1f3af; 执行匹配</h2>
                 <div id="matchExecuteMsg"></div>
-                <button class="btn btn-primary" onclick="executeMatch()">开始匹配（为我推荐用户）</button>
-                <span style="color:#888;margin-left:10px;font-size:13px;">基于信用分规则智能推荐</span>
+                <p style="color:#888;margin-bottom:12px;">基于信用分规则，自动为你推荐合适的匹配用户</p>
+                <button class="btn btn-primary" onclick="executeMatch()">开始匹配</button>
             </div>
+
             <div class="card">
-                <h2>&#x1f3c6; 匹配结果</h2>
-                <div id="matchResults"><p style="color:#999;">点击上方按钮执行匹配</p></div>
+                <h2 style="margin-bottom: 16px; color: #333;">&#x1f3c6; 匹配结果</h2>
+                <div id="matchResults" class="rating-list"><p style="color:#999;">点击上方按钮执行匹配</p></div>
             </div>
+
             <div class="card">
-                <h2>&#x2699; 匹配规则管理</h2>
+                <h2 style="margin-bottom: 16px; color: #333;">&#x2699; 匹配规则管理</h2>
                 <div id="matchRuleMsg"></div>
-                <button class="btn btn-success" onclick="showAddRule()">+ 新增规则</button>
-                <div id="addRuleForm" class="hidden" style="margin-top:14px;">
-                    <div class="row" style="align-items:flex-end;">
-                        <div class="form-group" style="margin-bottom:0;"><label>名称</label><input type="text" id="ruleName" style="width:140px;"></div>
-                        <div class="form-group" style="margin-bottom:0;"><label>类型</label>
-                            <select id="ruleType" style="width:120px;"><option value="1">信用匹配</option><option value="2">信用互补</option></select>
+                <button class="btn btn-success btn-sm" onclick="showAddRule()">+ 新增规则</button>
+                <div id="addRuleForm" class="hidden" style="margin-top: 16px;">
+                    <div class="row">
+                        <div class="form-group" style="flex:0 0 140px; margin-bottom:0;"><label>名称</label><input type="text" id="ruleName" placeholder="规则名称"></div>
+                        <div class="form-group" style="flex:0 0 120px; margin-bottom:0;"><label>类型</label>
+                            <select id="ruleType"><option value="1">信用匹配</option><option value="2">信用互补</option></select></div>
+                        <div class="form-group" style="flex:0 0 80px; margin-bottom:0;"><label>最低分</label><input type="number" id="ruleMinScore" value="80"></div>
+                        <div class="form-group" style="flex:0 0 80px; margin-bottom:0;"><label>最高分</label><input type="number" id="ruleMaxScore" value="200"></div>
+                        <div class="form-group" style="flex:0 0 80px; margin-bottom:0;"><label>优先级</label><input type="number" id="rulePriority" value="5"></div>
+                        <div style="padding-top: 28px;">
+                            <button class="btn btn-primary btn-sm" onclick="addRule()">保存</button>
                         </div>
-                        <div class="form-group" style="margin-bottom:0;"><label>最低分</label><input type="number" id="ruleMinScore" value="80" style="width:80px;"></div>
-                        <div class="form-group" style="margin-bottom:0;"><label>最高分</label><input type="number" id="ruleMaxScore" value="200" style="width:80px;"></div>
-                        <div class="form-group" style="margin-bottom:0;"><label>优先级</label><input type="number" id="rulePriority" value="5" style="width:80px;"></div>
-                        <button class="btn btn-primary" onclick="addRule()" style="margin-bottom:14px;">保存</button>
                     </div>
                 </div>
-                <table style="margin-top:12px;">
+                <table class="data-table">
                     <thead><tr><th>ID</th><th>名称</th><th>类型</th><th>信用范围</th><th>优先级</th><th>状态</th><th>操作</th></tr></thead>
                     <tbody id="rulesTable"><tr><td colspan="7" style="color:#999;">加载中...</td></tr></tbody>
                 </table>
             </div>
         </div>
 
-        <!-- ===== 后台管理 ===== -->
-        <div id="tab-admin" class="tab-content">
+        <!-- ========== 后台管理 ========== -->
+        <div id="module-admin" class="tab-content">
             <div class="card">
-                <h2>&#x1f4ca; 数据看板</h2>
+                <h2 style="margin-bottom: 16px; color: #333;">&#x1f4ca; 数据看板</h2>
                 <div class="stat-grid" id="dashboardStats"></div>
             </div>
+
             <div class="card">
-                <h2>&#x1f465; 用户管理</h2>
+                <h2 style="margin-bottom: 16px; color: #333;">&#x1f465; 用户管理</h2>
                 <div id="adminUserMsg"></div>
-                <div class="row" style="margin-bottom:12px;">
-                    <input type="text" id="userSearchKeyword" placeholder="搜索用户名/姓名/邮箱" style="width:240px;">
-                    <button class="btn btn-primary" onclick="loadAdminUsers(1)">搜索</button>
+                <div class="row-center" style="margin-bottom: 14px;">
+                    <input type="text" id="userSearchKeyword" placeholder="搜索用户名 / 姓名 / 邮箱" style="width:280px;">
+                    <button class="btn btn-primary btn-sm" onclick="loadAdminUsers(1)">搜索</button>
                 </div>
-                <table>
+                <table class="data-table">
                     <thead><tr><th>ID</th><th>用户名</th><th>姓名</th><th>邮箱</th><th>信用分</th><th>角色</th><th>状态</th><th>操作</th></tr></thead>
                     <tbody id="adminUsersTable"><tr><td colspan="8" style="color:#999;">加载中...</td></tr></tbody>
                 </table>
-                <div class="row" style="margin-top:12px;" id="adminUserPager"></div>
+                <div id="adminUserPager" style="margin-top: 12px;"></div>
             </div>
+
             <div class="card">
-                <h2>&#x1f4cb; 评价审核</h2>
-                <table>
-                    <thead><tr><th>ID</th><th>评价者</th><th>被评者</th><th>评分</th><th>内容</th><th>时间</th></tr></thead>
+                <h2 style="margin-bottom: 16px; color: #333;">&#x1f4cb; 评价审核</h2>
+                <table class="data-table">
+                    <thead><tr><th>ID</th><th>评价者ID</th><th>被评者ID</th><th>评分</th><th>内容</th><th>时间</th></tr></thead>
                     <tbody id="adminRatingsTable"><tr><td colspan="6" style="color:#999;">加载中...</td></tr></tbody>
                 </table>
             </div>
@@ -311,329 +541,462 @@
 </div>
 
 <script>
-const API = 'http://localhost:8080/api';
-let token = localStorage.getItem('token');
-let user = null;
-let activeConvId = null;
+    const API = 'http://localhost:8080/api';
+    let token = localStorage.getItem('token');
+    let user = null;
+    let activeConvId = null;
 
-// ===================== 初始化 =====================
-window.onload = () => { if (token) loadProfile(); };
+    // ===================== 初始化 =====================
+    window.onload = function() {
+        if (token) loadProfile();
+    };
 
-function showFeedback(id, text, ok) {
-    const d = document.getElementById(id);
-    d.innerHTML = `<div class="msg ${ok?'success':'error'}">${text}</div>`;
-    if (ok) setTimeout(() => d.innerHTML = '', 3000);
-}
+    function showMessage(elId, text, isSuccess) {
+        const div = document.createElement('div');
+        div.className = 'message ' + (isSuccess ? 'success' : 'error');
+        div.textContent = text;
+        const el = document.getElementById(elId);
+        el.innerHTML = '';
+        el.appendChild(div);
+        if (isSuccess) setTimeout(() => el.innerHTML = '', 3500);
+    }
 
-// ===================== 登录注册 =====================
-function switchAuthTab(t) {
-    document.querySelectorAll('#authSection .tab').forEach(el => el.classList.remove('active'));
-    document.querySelectorAll('#authSection .tab-content').forEach(el => el.classList.remove('active'));
-    event.target.classList.add('active');
-    document.getElementById(t + 'Tab').classList.add('active');
-}
+    // ===================== 登录 / 注册 =====================
+    function switchTab(tab) {
+        document.querySelectorAll('#authSection .tab').forEach(t => t.classList.remove('active'));
+        document.querySelectorAll('#authSection .tab-content').forEach(c => c.classList.remove('active'));
+        event.target.classList.add('active');
+        document.getElementById(tab + 'Tab').classList.add('active');
+    }
 
-async function handleLogin(e) {
-    e.preventDefault();
-    try {
-        const r = await fetch(API+'/user/login', {
-            method:'POST', headers:{'Content-Type':'application/json'},
-            body: JSON.stringify({ username: document.getElementById('loginUsername').value, password: document.getElementById('loginPassword').value })
-        });
+    async function handleLogin(e) {
+        e.preventDefault();
+        const username = document.getElementById('loginUsername').value;
+        const password = document.getElementById('loginPassword').value;
+        try {
+            const response = await fetch(API + '/user/login', {
+                method: 'POST', headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ username, password })
+            });
+            const data = await response.json();
+            if (data.code === 200) {
+                token = data.data.token;
+                user = data.data.user;
+                localStorage.setItem('token', token);
+                showMessage('loginMessage', '登录成功！', true);
+                setTimeout(() => loadProfile(), 500);
+            } else {
+                showMessage('loginMessage', data.msg || '登录失败', false);
+            }
+        } catch (error) {
+            showMessage('loginMessage', '网络错误，请检查后端是否启动', false);
+        }
+    }
+
+    async function handleRegister(e) {
+        e.preventDefault();
+        const data = {
+            username: document.getElementById('regUsername').value,
+            password: document.getElementById('regPassword').value,
+            email: document.getElementById('regEmail').value,
+            realName: document.getElementById('regRealName').value,
+            phone: document.getElementById('regPhone').value
+        };
+        try {
+            const response = await fetch(API + '/user/register', {
+                method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data)
+            });
+            const result = await response.json();
+            if (result.code === 200) {
+                showMessage('registerMessage', '注册成功！请登录', true);
+                setTimeout(() => switchTab('login'), 1000);
+            } else {
+                showMessage('registerMessage', result.msg || '注册失败', false);
+            }
+        } catch (error) {
+            showMessage('registerMessage', '网络错误', false);
+        }
+    }
+
+    // ===================== 个人资料 =====================
+    async function loadProfile() {
+        try {
+            const response = await fetch(API + '/user/profile', { headers: { 'token': token } });
+            const data = await response.json();
+            if (data.code === 200) {
+                user = data.data;
+                showMainSection();
+            } else { logout(); }
+        } catch (error) { console.error('加载资料失败:', error); logout(); }
+    }
+
+    function showMainSection() {
+        document.getElementById('authSection').classList.add('hidden');
+        document.getElementById('mainSection').classList.remove('hidden');
+        document.getElementById('navBar').classList.remove('hidden');
+        document.getElementById('currentUser').textContent = user.username;
+        document.getElementById('creditScore').textContent = user.creditScore;
+
+        // 管理员显示后台入口
+        if (user.role === 'ADMIN') {
+            document.querySelectorAll('.admin-only').forEach(el => el.classList.remove('hidden'));
+            const badge = document.getElementById('roleBadge');
+            badge.innerHTML = '<span class="badge badge-admin">管理员</span>';
+        }
+
+        // 个人资料
+        document.getElementById('profileInfo').innerHTML =
+            ['id','username','realName','email','phone','creditScore'].map(k =>
+                `<div class="info-item"><label>${k==='id'?'用户ID':k==='username'?'用户名':k==='realName'?'真实姓名':k==='email'?'邮箱':k==='phone'?'手机号':'信用分'}</label><value>${user[k]||'未设置'}</value></div>`
+            ).join('');
+
+        loadReceivedRatings();
+    }
+
+    function showEditProfile() {
+        document.getElementById('editProfileForm').classList.remove('hidden');
+        document.getElementById('changePasswordForm').classList.add('hidden');
+        document.getElementById('editEmail').value = user.email || '';
+        document.getElementById('editRealName').value = user.realName || '';
+        document.getElementById('editPhone').value = user.phone || '';
+        document.getElementById('editAvatar').value = user.avatar || '';
+    }
+    function hideEditProfile() { document.getElementById('editProfileForm').classList.add('hidden'); }
+
+    async function updateProfile() {
+        const data = {
+            email: document.getElementById('editEmail').value,
+            realName: document.getElementById('editRealName').value,
+            phone: document.getElementById('editPhone').value,
+            avatar: document.getElementById('editAvatar').value
+        };
+        try {
+            const response = await fetch(API + '/user/profile', {
+                method: 'PUT', headers: { 'Content-Type': 'application/json', 'token': token }, body: JSON.stringify(data)
+            });
+            const result = await response.json();
+            if (result.code === 200) { alert('修改成功！'); hideEditProfile(); loadProfile(); }
+            else alert(result.msg || '修改失败');
+        } catch (error) { alert('网络错误'); }
+    }
+
+    function showChangePassword() {
+        document.getElementById('changePasswordForm').classList.remove('hidden');
+        document.getElementById('editProfileForm').classList.add('hidden');
+    }
+    function hideChangePassword() { document.getElementById('changePasswordForm').classList.add('hidden'); }
+
+    async function changePassword() {
+        const oldPassword = document.getElementById('oldPassword').value;
+        const newPassword = document.getElementById('newPassword').value;
+        if (!oldPassword || !newPassword) { alert('请填写完整'); return; }
+        try {
+            const response = await fetch(API + '/user/password', {
+                method: 'PUT', headers: { 'Content-Type': 'application/json', 'token': token },
+                body: JSON.stringify({ oldPassword, newPassword })
+            });
+            const result = await response.json();
+            if (result.code === 200) { alert('密码修改成功！请重新登录'); logout(); }
+            else alert(result.msg || '修改失败');
+        } catch (error) { alert('网络错误'); }
+    }
+
+    // ===================== 评分 =====================
+    async function handleRating(e) {
+        e.preventDefault();
+        const data = {
+            toUserId: parseInt(document.getElementById('rateUserId').value),
+            score: parseInt(document.getElementById('rateScore').value),
+            content: document.getElementById('rateContent').value
+        };
+        try {
+            const response = await fetch(API + '/rating/add', {
+                method: 'POST', headers: { 'Content-Type': 'application/json', 'token': token }, body: JSON.stringify(data)
+            });
+            const result = await response.json();
+            if (result.code === 200) {
+                showMessage('ratingMessage', result.msg, true);
+                document.getElementById('rateUserId').value = '';
+                document.getElementById('rateScore').value = '';
+                document.getElementById('rateContent').value = '';
+                loadProfile();
+                loadReceivedRatings();
+            } else {
+                showMessage('ratingMessage', result.msg || '评分失败', false);
+            }
+        } catch (error) { showMessage('ratingMessage', '网络错误', false); }
+    }
+
+    async function loadReceivedRatings() {
+        try {
+            const response = await fetch(API + '/rating/received', { headers: { 'token': token } });
+            const data = await response.json();
+            if (data.code === 200) {
+                const ratings = data.data;
+                if (ratings.length === 0) {
+                    document.getElementById('receivedRatings').innerHTML = '<p style="text-align: center; color: #999;">暂无评分记录</p>';
+                    return;
+                }
+                let html = '';
+                ratings.forEach(rating => {
+                    const stars = '⭐'.repeat(rating.score);
+                    html += `<div class="rating-item">
+                        <div class="rating-header"><span>评分人ID: ${rating.fromUserId}</span><span class="rating-score">${stars}</span></div>
+                        <div style="color: #666;">${rating.content || '无评价内容'}</div>
+                        <div style="color: #999; font-size: 12px; margin-top: 5px;">${new Date(rating.createdAt).toLocaleString('zh-CN')}</div>
+                    </div>`;
+                });
+                document.getElementById('receivedRatings').innerHTML = html;
+            }
+        } catch (error) { console.error('加载评分失败:', error); }
+    }
+
+    // ===================== 模块切换 =====================
+    function switchModule(mod) {
+        document.querySelectorAll('.module-tab').forEach(t => t.classList.remove('active'));
+        document.querySelectorAll('#mainSection > .tab-content').forEach(c => c.classList.remove('active'));
+        event.target.classList.add('active');
+        document.getElementById('module-' + mod).classList.add('active');
+
+        if (mod === 'message') loadConversations();
+        if (mod === 'match') loadMatchRules();
+        if (mod === 'admin' && user && user.role === 'ADMIN') { loadDashboard(); loadAdminUsers(1); loadAdminRatings(); }
+    }
+
+    // ===================== 消息模块 =====================
+    async function loadConversations() {
+        try {
+            const r = await fetch(API + '/message/conversations', { headers: { 'token': token } });
+            const d = await r.json();
+            const convs = d.data || [];
+            document.getElementById('conversationList').innerHTML = convs.length === 0
+                ? '<p style="text-align:center;color:#999;padding:30px;">暂无会话</p>'
+                : convs.map(c => {
+                    const otherId = c.user1Id === user.id ? c.user2Id : c.user1Id;
+                    const unread = c.unreadCount > 0 ? `<span class="conv-badge">${c.unreadCount}</span>` : '';
+                    return `<div class="conv-item" data-cid="${c.id}" onclick="openConversation(${c.id})">
+                        <div class="conv-name">用户 ${otherId} ${c.orderId ? '(订单#'+c.orderId+')' : ''} ${unread}</div>
+                        <div class="conv-last">${c.lastMessage || '暂无消息'}</div>
+                    </div>`;
+                }).join('');
+        } catch(e) { console.error(e); }
+    }
+
+    async function openConversation(cid) {
+        activeConvId = cid;
+        document.querySelectorAll('.conv-item').forEach(el => el.classList.remove('active'));
+        document.querySelector(`.conv-item[data-cid="${cid}"]`)?.classList.add('active');
+        document.getElementById('msgInput').disabled = false;
+        document.getElementById('msgSendBtn').disabled = false;
+
+        try {
+            const r = await fetch(API + '/message/' + cid, { headers: { 'token': token } });
+            const d = await r.json();
+            const msgs = d.data || [];
+            document.getElementById('chatMessages').innerHTML = msgs.length === 0
+                ? '<p style="text-align:center;color:#999;padding:60px 0;">暂无消息，发送第一条吧</p>'
+                : msgs.map(m => {
+                    const isMine = m.senderId === user.id;
+                    return `<div class="chat-msg ${isMine ? 'mine' : 'other'}">
+                        <div class="bubble">${escapeHtml(m.content)}</div>
+                        <div class="meta">${new Date(m.createdAt).toLocaleString('zh-CN')} ${m.isRead ? '✅' : ''}</div>
+                    </div>`;
+                }).join('');
+            document.getElementById('chatMessages').scrollTop = document.getElementById('chatMessages').scrollHeight;
+            loadConversations();
+        } catch(e) { console.error(e); }
+    }
+
+    async function sendMsg() {
+        const content = document.getElementById('msgInput').value.trim();
+        if (!content || !activeConvId) return;
+
+        try {
+            const r0 = await fetch(API + '/message/' + activeConvId, { headers: { 'token': token } });
+            const msgs = await r0.json();
+            const msgsList = msgs.data || [];
+            const last = msgsList.length > 0 ? msgsList[msgsList.length - 1] : null;
+            const receiverId = last ? (last.senderId === user.id ? last.receiverId : last.senderId) : null;
+            if (!receiverId) { alert('无法确定接收者'); return; }
+
+            const r = await fetch(API + '/message/send', {
+                method: 'POST', headers: { 'Content-Type': 'application/json', 'token': token },
+                body: JSON.stringify({ receiverId, content, msgType: 1 })
+            });
+            const d = await r.json();
+            if (d.code === 200) { document.getElementById('msgInput').value = ''; openConversation(activeConvId); }
+            else alert(d.msg);
+        } catch(e) { console.error(e); }
+    }
+
+    async function sendNewMsg() {
+        const receiverId = parseInt(document.getElementById('newMsgReceiver').value);
+        const content = document.getElementById('newMsgContent').value.trim();
+        if (!receiverId || !content) { showMessage('sendMsgFeedback', '请填写接收者ID和消息内容', false); return; }
+        try {
+            const r = await fetch(API + '/message/send', {
+                method: 'POST', headers: { 'Content-Type': 'application/json', 'token': token },
+                body: JSON.stringify({ receiverId, content, msgType: 1 })
+            });
+            const d = await r.json();
+            if (d.code === 200) {
+                showMessage('sendMsgFeedback', '发送成功', true);
+                document.getElementById('newMsgContent').value = '';
+                loadConversations();
+            } else {
+                showMessage('sendMsgFeedback', d.msg, false);
+            }
+        } catch(e) { showMessage('sendMsgFeedback', '网络错误', false); }
+    }
+
+    // ===================== 智能匹配 =====================
+    async function executeMatch() {
+        showMessage('matchExecuteMsg', '匹配中，请稍候...', true);
+        try {
+            const r = await fetch(API + '/match/execute', { method: 'POST', headers: { 'token': token } });
+            const d = await r.json();
+            if (d.code === 200) { showMessage('matchExecuteMsg', '匹配完成！', true); loadMatchResults(); }
+            else showMessage('matchExecuteMsg', d.msg, false);
+        } catch(e) { showMessage('matchExecuteMsg', '网络错误', false); }
+    }
+
+    async function loadMatchResults() {
+        try {
+            const r = await fetch(API + '/match/results', { headers: { 'token': token } });
+            const d = await r.json();
+            const results = d.data || [];
+            document.getElementById('matchResults').innerHTML = results.length === 0
+                ? '<p style="color:#999;">暂无匹配结果</p>'
+                : `<table class="data-table"><thead><tr><th>推荐用户ID</th><th>匹配分数</th><th>时间</th></tr></thead><tbody>`
+                  + results.map(r => `<tr><td><b>${r.targetUserId}</b></td><td><span style="color:#667eea;font-weight:bold;font-size:16px;">${r.matchScore}</span></td><td>${new Date(r.createdAt).toLocaleString('zh-CN')}</td></tr>`).join('')
+                  + `</tbody></table>`;
+        } catch(e) { console.error(e); }
+    }
+
+    async function loadMatchRules() {
+        try {
+            const r = await fetch(API + '/match/rules');
+            const d = await r.json();
+            const rules = d.data || [];
+            document.getElementById('rulesTable').innerHTML = rules.length === 0
+                ? '<tr><td colspan="7" style="color:#999;">暂无规则</td></tr>'
+                : rules.map(rule => `<tr>
+                    <td>${rule.id}</td><td>${escapeHtml(rule.ruleName)}</td>
+                    <td>${rule.ruleType === 1 ? '信用匹配' : '信用互补'}</td>
+                    <td>${rule.minCreditScore} - ${rule.maxCreditScore}</td>
+                    <td>${rule.priority}</td>
+                    <td><span class="badge ${rule.status === 1 ? 'badge-on' : 'badge-off'}">${rule.status === 1 ? '启用' : '禁用'}</span></td>
+                    <td><button class="btn btn-sm ${rule.status === 1 ? 'btn-secondary' : 'btn-success'}" onclick="toggleRule(${rule.id})">${rule.status === 1 ? '禁用' : '启用'}</button></td>
+                </tr>`).join('');
+        } catch(e) { console.error(e); }
+    }
+
+    function showAddRule() { document.getElementById('addRuleForm').classList.remove('hidden'); }
+
+    async function addRule() {
+        try {
+            const r = await fetch(API + '/match/rule', {
+                method: 'POST', headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    ruleName: document.getElementById('ruleName').value,
+                    ruleType: parseInt(document.getElementById('ruleType').value),
+                    minCreditScore: parseInt(document.getElementById('ruleMinScore').value),
+                    maxCreditScore: parseInt(document.getElementById('ruleMaxScore').value),
+                    priority: parseInt(document.getElementById('rulePriority').value)
+                })
+            });
+            const d = await r.json();
+            if (d.code === 200) { showMessage('matchRuleMsg', '规则已添加', true); document.getElementById('addRuleForm').classList.add('hidden'); loadMatchRules(); }
+            else showMessage('matchRuleMsg', d.msg, false);
+        } catch(e) { showMessage('matchRuleMsg', '网络错误', false); }
+    }
+
+    async function toggleRule(id) {
+        const r = await fetch(API + '/match/rule/' + id + '/toggle', { method: 'PUT' });
         const d = await r.json();
-        if (d.code===200) { token=d.data.token; user=d.data.user; localStorage.setItem('token',token); showFeedback('loginMessage','登录成功',true); setTimeout(loadProfile,400); }
-        else showFeedback('loginMessage', d.msg||'登录失败', false);
-    } catch(e) { showFeedback('loginMessage','网络错误',false); }
-}
+        if (d.code === 200) loadMatchRules();
+    }
 
-async function handleRegister(e) {
-    e.preventDefault();
-    try {
-        const r = await fetch(API+'/user/register', {
-            method:'POST', headers:{'Content-Type':'application/json'},
-            body: JSON.stringify({ username: document.getElementById('regUsername').value, password: document.getElementById('regPassword').value, email: document.getElementById('regEmail').value, realName: document.getElementById('regRealName').value, phone: document.getElementById('regPhone').value })
-        });
+    // ===================== 后台管理 =====================
+    async function loadDashboard() {
+        try {
+            const r = await fetch(API + '/admin/dashboard', { headers: { 'token': token } });
+            const d = await r.json();
+            if (d.code === 200) {
+                const s = d.data;
+                document.getElementById('dashboardStats').innerHTML =
+                    `<div class="stat-card"><div class="num">${s.totalUsers}</div><div class="lbl">总用户数</div></div>
+                     <div class="stat-card"><div class="num">${s.activeUsers}</div><div class="lbl">活跃用户</div></div>
+                     <div class="stat-card"><div class="num">${s.todayNewUsers}</div><div class="lbl">今日新增</div></div>
+                     <div class="stat-card"><div class="num">${s.totalRatings}</div><div class="lbl">总评价数</div></div>
+                     <div class="stat-card"><div class="num">${s.totalOrders}</div><div class="lbl">订单数</div></div>`;
+            }
+        } catch(e) { console.error(e); }
+    }
+
+    var adminUserPage = 1;
+    async function loadAdminUsers(page) {
+        adminUserPage = page || 1;
+        const keyword = document.getElementById('userSearchKeyword').value;
+        try {
+            const r = await fetch(API + '/admin/users?page=' + adminUserPage + '&pageSize=10&keyword=' + encodeURIComponent(keyword), { headers: { 'token': token } });
+            const d = await r.json();
+            if (d.code === 200) {
+                const data = d.data;
+                document.getElementById('adminUsersTable').innerHTML = (data.records || []).map(u =>
+                    `<tr>
+                        <td>${u.id}</td><td>${escapeHtml(u.username)}</td><td>${escapeHtml(u.realName || '—')}</td>
+                        <td>${u.email || '—'}</td><td><b>${u.creditScore}</b></td>
+                        <td><span class="badge ${u.role === 'ADMIN' ? 'badge-admin' : 'badge-user'}">${u.role}</span></td>
+                        <td><span class="badge ${u.status === 1 ? 'badge-on' : 'badge-off'}">${u.status === 1 ? '正常' : '封禁'}</span></td>
+                        <td>
+                            <button class="btn btn-sm ${u.status === 1 ? 'btn-danger' : 'btn-success'}" onclick="toggleUserStatus(${u.id},${u.status === 1 ? 0 : 1})">${u.status === 1 ? '封禁' : '解封'}</button>
+                            ${u.role !== 'ADMIN' ? '<button class="btn btn-sm btn-primary" onclick="setAdmin('+u.id+')">设为管理员</button>' : ''}
+                        </td>
+                    </tr>`
+                ).join('');
+                document.getElementById('adminUserPager').innerHTML = data.pages > 1
+                    ? `第 ${data.current}/${data.pages} 页 `
+                      + (data.current > 1 ? `<button class="btn btn-sm btn-secondary" onclick="loadAdminUsers(${data.current - 1})">上一页</button>` : '')
+                      + (data.current < data.pages ? `<button class="btn btn-sm btn-secondary" onclick="loadAdminUsers(${data.current + 1})">下一页</button>` : '')
+                    : '';
+            }
+        } catch(e) { console.error(e); }
+    }
+
+    async function toggleUserStatus(uid, st) {
+        const r = await fetch(API + '/admin/user/status', { method: 'PUT', headers: { 'Content-Type': 'application/json', 'token': token }, body: JSON.stringify({ userId: uid, status: st }) });
         const d = await r.json();
-        if (d.code===200) { showFeedback('registerMessage','注册成功！请登录',true); setTimeout(()=>switchAuthTab('login'),800); }
-        else showFeedback('registerMessage', d.msg||'注册失败', false);
-    } catch(e) { showFeedback('registerMessage','网络错误',false); }
-}
+        if (d.code === 200) { showMessage('adminUserMsg', '操作成功', true); loadAdminUsers(adminUserPage); }
+        else showMessage('adminUserMsg', d.msg, false);
+    }
 
-// ===================== 个人资料 =====================
-async function loadProfile() {
-    try {
-        const r = await fetch(API+'/user/profile', { headers:{'token':token} });
+    async function setAdmin(uid) {
+        const r = await fetch(API + '/admin/user/role', { method: 'PUT', headers: { 'Content-Type': 'application/json', 'token': token }, body: JSON.stringify({ userId: uid, role: 'ADMIN' }) });
         const d = await r.json();
-        if (d.code===200) { user = d.data; showMain(); }
-        else logout();
-    } catch(e) { console.error(e); logout(); }
-}
-
-function showMain() {
-    document.getElementById('authSection').classList.add('hidden');
-    document.getElementById('mainSection').classList.remove('hidden');
-    document.getElementById('navBar').classList.remove('hidden');
-    document.getElementById('currentUser').textContent = user.username;
-    document.getElementById('creditScore').textContent = user.creditScore;
-    const badge = document.getElementById('roleBadge');
-    if (user.role==='ADMIN') {
-        badge.innerHTML = '<span class="badge badge-admin">管理员</span>';
-        document.querySelectorAll('.admin-only').forEach(el => el.classList.remove('hidden'));
+        if (d.code === 200) { showMessage('adminUserMsg', '已设为管理员', true); loadAdminUsers(adminUserPage); }
+        else showMessage('adminUserMsg', d.msg, false);
     }
 
-    document.getElementById('profileInfo').innerHTML =
-        ['id','username','email','realName','phone','creditScore'].map(k =>
-            `<div style="padding:12px;background:#f8f9fa;border-radius:6px;"><label style="color:#888;font-size:11px;">${k}</label><div style="font-size:16px;font-weight:bold;color:#333;">${user[k]||'—'}</div></div>`
-        ).join('');
-
-    loadReceivedRatings();
-    switchMainTab('profile');
-}
-
-function showEditProfile() { document.getElementById('editProfileForm').classList.remove('hidden'); document.getElementById('changePasswordForm').classList.add('hidden'); document.getElementById('editEmail').value=user.email||''; document.getElementById('editRealName').value=user.realName||''; document.getElementById('editPhone').value=user.phone||''; document.getElementById('editAvatar').value=user.avatar||''; }
-function hideEditProfile() { document.getElementById('editProfileForm').classList.add('hidden'); }
-async function updateProfile() {
-    const r = await fetch(API+'/user/profile', { method:'PUT', headers:{'Content-Type':'application/json','token':token}, body: JSON.stringify({ email: document.getElementById('editEmail').value, realName: document.getElementById('editRealName').value, phone: document.getElementById('editPhone').value, avatar: document.getElementById('editAvatar').value }) });
-    const d = await r.json();
-    if (d.code===200) { alert('修改成功'); hideEditProfile(); loadProfile(); } else alert(d.msg);
-}
-function showChangePassword() { document.getElementById('changePasswordForm').classList.remove('hidden'); document.getElementById('editProfileForm').classList.add('hidden'); }
-function hideChangePassword() { document.getElementById('changePasswordForm').classList.add('hidden'); }
-async function changePassword() {
-    const r = await fetch(API+'/user/password', { method:'PUT', headers:{'Content-Type':'application/json','token':token}, body: JSON.stringify({ oldPassword: document.getElementById('oldPassword').value, newPassword: document.getElementById('newPassword').value }) });
-    const d = await r.json();
-    if (d.code===200) { alert('密码修改成功，请重新登录'); logout(); } else alert(d.msg);
-}
-
-// ===================== 评分 =====================
-async function handleRating(e) {
-    e.preventDefault();
-    const r = await fetch(API+'/rating/add', { method:'POST', headers:{'Content-Type':'application/json','token':token}, body: JSON.stringify({ toUserId: parseInt(document.getElementById('rateUserId').value), score: parseInt(document.getElementById('rateScore').value), content: document.getElementById('rateContent').value }) });
-    const d = await r.json();
-    showFeedback('ratingMessage', d.msg, d.code===200);
-    if (d.code===200) { document.getElementById('rateUserId').value=''; document.getElementById('rateScore').value=''; document.getElementById('rateContent').value=''; loadProfile(); loadReceivedRatings(); }
-}
-async function loadReceivedRatings() {
-    const r = await fetch(API+'/rating/received', { headers:{'token':token} });
-    const d = await r.json();
-    if (d.code===200) {
-        const ratings = d.data||[];
-        document.getElementById('receivedRatings').innerHTML = ratings.length===0
-            ? '<p style="color:#999;text-align:center;">暂无评分</p>'
-            : ratings.map(r => `<div style="padding:12px;border-bottom:1px solid #eee;"><div style="display:flex;justify-content:space-between;"><span>评分人ID: ${r.fromUserId}</span><span style="color:#ffc107;">${'⭐'.repeat(r.score)}</span></div><div style="color:#666;">${r.content||'—'}</div><div style="color:#999;font-size:11px;">${new Date(r.createdAt).toLocaleString('zh-CN')}</div></div>`).join('');
+    async function loadAdminRatings() {
+        try {
+            const r = await fetch(API + '/admin/ratings?page=1&pageSize=20', { headers: { 'token': token } });
+            const d = await r.json();
+            if (d.code === 200) {
+                const list = (d.data && d.data.records) ? d.data.records : [];
+                document.getElementById('adminRatingsTable').innerHTML = list.length === 0
+                    ? '<tr><td colspan="6" style="color:#999;">暂无评价</td></tr>'
+                    : list.map(rt => `<tr>
+                        <td>${rt.id}</td><td>${rt.fromUserId}</td><td>${rt.toUserId}</td>
+                        <td>${'⭐'.repeat(rt.score)}</td><td>${escapeHtml(rt.content || '—')}</td>
+                        <td>${new Date(rt.createdAt).toLocaleString('zh-CN')}</td></tr>`).join('');
+            }
+        } catch(e) { console.error(e); }
     }
-}
 
-// ===================== 主选项卡切换 =====================
-function switchMainTab(tab) {
-    document.querySelectorAll('#mainSection > .tabs .tab').forEach(el => el.classList.remove('active'));
-    document.querySelectorAll('#mainSection .tab-content').forEach(el => el.classList.remove('active'));
-    event.target.classList.add('active');
-    document.getElementById('tab-'+tab).classList.add('active');
-    if (tab==='message') { loadConversations(); }
-    if (tab==='match') { loadMatchRules(); }
-    if (tab==='admin' && user && user.role==='ADMIN') { loadDashboard(); loadAdminUsers(1); loadAdminRatings(); }
-}
-
-// ===================== 消息模块 =====================
-async function loadConversations() {
-    const r = await fetch(API+'/message/conversations', { headers:{'token':token} });
-    const d = await r.json();
-    const convs = d.data||[];
-    const html = convs.length===0
-        ? '<p style="text-align:center;color:#999;padding:20px;">暂无会话</p>'
-        : convs.map(c => {
-            const otherId = c.user1Id===user.id ? c.user2Id : c.user1Id;
-            const unreadBadge = (c.unreadCount > 0) ? `<span class="conv-badge">${c.unreadCount}</span>` : '';
-            return `<div class="conv-item" data-cid="${c.id}" onclick="openConversation(${c.id})">
-                <div class="conv-name">用户${otherId} ${c.orderId?('(订单#'+c.orderId+')'):''} ${unreadBadge}</div>
-                <div class="conv-last">${c.lastMessage||'暂无消息'}</div>
-            </div>`;
-        }).join('');
-    document.getElementById('conversationList').innerHTML = html;
-}
-
-async function openConversation(cid) {
-    activeConvId = cid;
-    document.querySelectorAll('.conv-item').forEach(el => el.classList.remove('active'));
-    document.querySelector(`.conv-item[data-cid="${cid}"]`)?.classList.add('active');
-    document.getElementById('msgInput').disabled = false;
-    document.getElementById('msgSendBtn').disabled = false;
-
-    const r = await fetch(API+'/message/'+cid, { headers:{'token':token} });
-    const d = await r.json();
-    const msgs = d.data||[];
-    document.getElementById('chatMessages').innerHTML = msgs.length===0
-        ? '<p style="text-align:center;color:#999;padding:40px;">暂无消息，发送第一条吧</p>'
-        : msgs.map(m => {
-            const isMine = m.senderId===user.id;
-            const cls = isMine ? 'mine' : 'other';
-            return `<div class="chat-msg ${cls}">
-                <div class="bubble">${escapeHtml(m.content)}</div>
-                <div class="meta">${new Date(m.createdAt).toLocaleString('zh-CN')} ${m.isRead?'✅':''}</div>
-            </div>`;
-        }).join('');
-    document.getElementById('chatMessages').scrollTop = document.getElementById('chatMessages').scrollHeight;
-    loadConversations(); // 刷新未读计数
-}
-
-async function sendMsg() {
-    const content = document.getElementById('msgInput').value.trim();
-    if (!content || !activeConvId) return;
-    // 从当前会话找到接收者
-    const r0 = await fetch(API+'/message/'+activeConvId, { headers:{'token':token} });
-    const msgs = await r0.json();
-    const msgsList = msgs.data||[];
-    const lastMsg = msgsList.length>0 ? msgsList[msgsList.length-1] : null;
-    const receiverId = lastMsg ? (lastMsg.senderId===user.id ? lastMsg.receiverId : lastMsg.senderId) : null;
-    if (!receiverId) { alert('无法确定接收者'); return; }
-
-    const r = await fetch(API+'/message/send', { method:'POST', headers:{'Content-Type':'application/json','token':token}, body: JSON.stringify({ receiverId, content, msgType:1 }) });
-    const d = await r.json();
-    if (d.code===200) { document.getElementById('msgInput').value=''; openConversation(activeConvId); }
-    else alert(d.msg);
-}
-
-async function sendNewMsg() {
-    const receiverId = parseInt(document.getElementById('newMsgReceiver').value);
-    const content = document.getElementById('newMsgContent').value.trim();
-    if (!receiverId || !content) { showFeedback('sendMsgFeedback','请填写完整',false); return; }
-    const r = await fetch(API+'/message/send', { method:'POST', headers:{'Content-Type':'application/json','token':token}, body: JSON.stringify({ receiverId, content, msgType:1 }) });
-    const d = await r.json();
-    showFeedback('sendMsgFeedback', d.msg, d.code===200);
-    if (d.code===200) { document.getElementById('newMsgContent').value=''; loadConversations(); }
-}
-
-// ===================== 智能匹配 =====================
-async function executeMatch() {
-    showFeedback('matchExecuteMsg','匹配中...',true);
-    const r = await fetch(API+'/match/execute', { method:'POST', headers:{'token':token} });
-    const d = await r.json();
-    if (d.code===200) {
-        showFeedback('matchExecuteMsg','匹配完成',true);
-        loadMatchResults();
-    } else {
-        showFeedback('matchExecuteMsg', d.msg, false);
-    }
-}
-
-async function loadMatchResults() {
-    const r = await fetch(API+'/match/results', { headers:{'token':token} });
-    const d = await r.json();
-    const results = d.data||[];
-    document.getElementById('matchResults').innerHTML = results.length===0
-        ? '<p style="color:#999;">暂无匹配结果，请先执行匹配</p>'
-        : `<table><thead><tr><th>目标用户ID</th><th>匹配分数</th><th>匹配时间</th></tr></thead><tbody>`
-          + results.map(r => `<tr><td><b>${r.targetUserId}</b></td><td><span style="color:#667eea;font-weight:bold;">${r.matchScore}</span></td><td>${new Date(r.createdAt).toLocaleString('zh-CN')}</td></tr>`).join('')
-          + `</tbody></table>`;
-}
-
-async function loadMatchRules() {
-    const r = await fetch(API+'/match/rules');
-    const d = await r.json();
-    const rules = d.data||[];
-    document.getElementById('rulesTable').innerHTML = rules.length===0
-        ? '<tr><td colspan="7" style="color:#999;">暂无规则</td></tr>'
-        : rules.map(rule => `<tr>
-            <td>${rule.id}</td><td>${escapeHtml(rule.ruleName)}</td>
-            <td>${rule.ruleType===1?'信用匹配':'信用互补'}</td>
-            <td>${rule.minCreditScore} - ${rule.maxCreditScore}</td>
-            <td>${rule.priority}</td>
-            <td><span class="badge ${rule.status===1?'badge-active':'badge-banned'}">${rule.status===1?'启用':'禁用'}</span></td>
-            <td><button class="btn btn-sm ${rule.status===1?'btn-danger':'btn-success'}" onclick="toggleRule(${rule.id})">${rule.status===1?'禁用':'启用'}</button></td>
-        </tr>`).join('');
-}
-
-function showAddRule() { document.getElementById('addRuleForm').classList.remove('hidden'); }
-async function addRule() {
-    const r = await fetch(API+'/match/rule', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({
-        ruleName: document.getElementById('ruleName').value,
-        ruleType: parseInt(document.getElementById('ruleType').value),
-        minCreditScore: parseInt(document.getElementById('ruleMinScore').value),
-        maxCreditScore: parseInt(document.getElementById('ruleMaxScore').value),
-        priority: parseInt(document.getElementById('rulePriority').value)
-    })});
-    const d = await r.json();
-    showFeedback('matchRuleMsg', d.code===200?'规则已添加':d.msg, d.code===200);
-    if (d.code===200) { document.getElementById('addRuleForm').classList.add('hidden'); loadMatchRules(); }
-}
-async function toggleRule(id) {
-    const r = await fetch(API+'/match/rule/'+id+'/toggle', { method:'PUT' });
-    const d = await r.json();
-    if (d.code===200) loadMatchRules();
-}
-
-// ===================== 后台管理 =====================
-async function loadDashboard() {
-    const r = await fetch(API+'/admin/dashboard', { headers:{'token':token} });
-    const d = await r.json();
-    if (d.code===200) {
-        const s = d.data;
-        document.getElementById('dashboardStats').innerHTML =
-            `<div class="stat-card"><div class="num">${s.totalUsers}</div><div class="lbl">总用户</div></div>
-             <div class="stat-card"><div class="num">${s.activeUsers}</div><div class="lbl">活跃用户</div></div>
-             <div class="stat-card"><div class="num">${s.todayNewUsers}</div><div class="lbl">今日新增</div></div>
-             <div class="stat-card"><div class="num">${s.totalRatings}</div><div class="lbl">总评价</div></div>
-             <div class="stat-card"><div class="num">${s.totalOrders}</div><div class="lbl">总订单</div></div>`;
-    }
-}
-
-let adminUserPage = 1;
-async function loadAdminUsers(page) {
-    adminUserPage = page||1;
-    const keyword = document.getElementById('userSearchKeyword').value;
-    const r = await fetch(API+'/admin/users?page='+adminUserPage+'&pageSize=10&keyword='+encodeURIComponent(keyword), { headers:{'token':token} });
-    const d = await r.json();
-    if (d.code===200) {
-        const data = d.data;
-        document.getElementById('adminUsersTable').innerHTML = (data.records||[]).map(u =>
-            `<tr>
-                <td>${u.id}</td><td>${escapeHtml(u.username)}</td><td>${escapeHtml(u.realName||'—')}</td><td>${u.email||'—'}</td>
-                <td><b>${u.creditScore}</b></td>
-                <td><span class="badge ${u.role==='ADMIN'?'badge-admin':'badge-user'}">${u.role}</span></td>
-                <td><span class="badge ${u.status===1?'badge-active':'badge-banned'}">${u.status===1?'正常':'封禁'}</span></td>
-                <td>
-                    <button class="btn btn-sm ${u.status===1?'btn-danger':'btn-success'}" onclick="toggleUserStatus(${u.id},${u.status===1?0:1})">${u.status===1?'封禁':'解封'}</button>
-                    ${u.role!=='ADMIN' ? `<button class="btn btn-sm btn-primary" onclick="setAdmin(${u.id})">设为管理员</button>` : ''}
-                </td>
-            </tr>`
-        ).join('');
-        document.getElementById('adminUserPager').innerHTML = data.pages>1
-            ? `第 ${data.current}/${data.pages} 页 `
-              + (data.current>1 ? `<button class="btn btn-sm btn-secondary" onclick="loadAdminUsers(${data.current-1})">上一页</button>`:'')
-              + (data.current<data.pages ? `<button class="btn btn-sm btn-secondary" onclick="loadAdminUsers(${data.current+1})">下一页</button>`:'')
-            : '';
-    }
-}
-async function toggleUserStatus(uid, st) {
-    const r = await fetch(API+'/admin/user/status', { method:'PUT', headers:{'Content-Type':'application/json','token':token}, body: JSON.stringify({ userId: uid, status: st }) });
-    const d = await r.json();
-    showFeedback('adminUserMsg', d.code===200?'操作成功':d.msg, d.code===200);
-    if (d.code===200) loadAdminUsers(adminUserPage);
-}
-async function setAdmin(uid) {
-    const r = await fetch(API+'/admin/user/role', { method:'PUT', headers:{'Content-Type':'application/json','token':token}, body: JSON.stringify({ userId: uid, role: 'ADMIN' }) });
-    const d = await r.json();
-    showFeedback('adminUserMsg', d.code===200?'已设为管理员':d.msg, d.code===200);
-    if (d.code===200) loadAdminUsers(adminUserPage);
-}
-async function loadAdminRatings() {
-    const r = await fetch(API+'/admin/ratings?page=1&pageSize=20', { headers:{'token':token} });
-    const d = await r.json();
-    if (d.code===200) {
-        const ratings = (d.data && d.data.records) ? d.data.records : [];
-        document.getElementById('adminRatingsTable').innerHTML = ratings.length===0
-            ? '<tr><td colspan="6" style="color:#999;">暂无评价</td></tr>'
-            : ratings.map(rt => `<tr>
-                <td>${rt.id}</td><td>${rt.fromUserId}</td><td>${rt.toUserId}</td>
-                <td>${'⭐'.repeat(rt.score)}</td><td>${escapeHtml(rt.content||'—')}</td>
-                <td>${new Date(rt.createdAt).toLocaleString('zh-CN')}</td></tr>`).join('');
-    }
-}
-
-// ===================== 工具函数 =====================
-function logout() { localStorage.removeItem('token'); token=null; user=null; location.reload(); }
-function escapeHtml(s) { const d=document.createElement('div'); d.textContent=s; return d.innerHTML; }
+    // ===================== 工具 =====================
+    function logout() { localStorage.removeItem('token'); token = null; user = null; location.reload(); }
+    function escapeHtml(s) { const d = document.createElement('div'); d.textContent = s; return d.innerHTML; }
 </script>
 </body>
 </html>
