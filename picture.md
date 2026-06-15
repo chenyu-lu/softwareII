@@ -1,126 +1,170 @@
 erDiagram
+    %% 用户模块
     user {
-        int PK user_id
-        string student_id
-        string email
-        string phone
-        int auth_status
+        bigint user_id PK
+        varchar student_id
+        varchar name
+        varchar phone
+        varchar email
+        tinyint auth_status
         int credit_score
+        datetime register_time
     }
     user_credit {
-        int PK credit_id
-        int FK user_id
+        bigint credit_id PK
+        bigint user_id FK
         int credit_score
-        int level
+        tinyint credit_level
+        int evaluation_count
+        int violation_count
+        datetime update_time
     }
     campus_auth {
-        int PK auth_id
-        int FK user_id
-        string id_card
-        int auth_status
-    }
-    demand_type {
-        int PK type_id
-        string type_name
-        int parent_type_id
-    }
-    demand {
-        int PK demand_id
-        int FK publisher_id
-        int FK type_id
-        string title
-        decimal reward
-        int status
-    }
-    demand_tag {
-        int PK tag_id
-        string tag_name
-        string category
-    }
-    demand_tag_relation {
-        int PK id
-        int FK demand_id
-        int FK tag_id
-    }
-    match_rule {
-        int PK rule_id
-        string rule_type
-        int priority
-    }
-    match_result {
-        int PK match_id
-        int FK demand_id
-        int FK user_id
-        int FK rule_id
-        int match_score
-        int status
-    }
-    order {
-        int PK order_id
-        int FK demand_id
-        int FK publisher_id
-        int FK provider_id
-        int status
-        decimal reward_amount
-    }
-    order_progress {
-        int PK progress_id
-        int FK order_id
-        int status
-        datetime operate_time
-    }
-    message {
-        int PK message_id
-        int FK sender_id
-        int FK receiver_id
-        int FK order_id
-        string content
-        boolean is_read
-    }
-    review {
-        int PK review_id
-        int FK order_id
-        int FK reviewer_id
-        int FK target_user_id
-        int rating
-        string content
-    }
-    transaction {
-        int PK transaction_id
-        int FK order_id
-        int FK payer_id
-        int FK payee_id
-        decimal amount
-        int status
-    }
-    guarantee {
-        int PK guarantee_id
-        int FK transaction_id
-        decimal amount
-        int status
+        bigint auth_id PK
+        bigint user_id FK
+        varchar student_id
+        varchar id_card
+        varchar student_card_url
+        tinyint auth_status
+        datetime audit_time
     }
 
-    %% 实体关系定义
-    user ||--|| user_credit : 1-1
-    user ||--|| campus_auth : 1-1
-    user ||--o{ demand : 1-N (发布者)
-    user ||--o{ match_result : 1-N (被匹配)
-    user ||--o{ order : 1-N (发布者/承接者)
-    user ||--o{ message : 1-N (发送者/接收者)
-    user ||--o{ review : 1-N (评价者/被评价者)
-    user ||--o{ transaction : 1-N (付款方/收款方)
-    
-    demand_type ||--o{ demand : 1-N
-    demand ||--o{ demand_tag_relation : 1-N
-    demand_tag ||--o{ demand_tag_relation : 1-N
-    demand ||--o{ match_result : 1-N
-    demand ||--|| order : 1-1
-    
-    match_rule ||--o{ match_result : 1-N
-    
-    order ||--o{ order_progress : 1-N
-    order ||--o{ message : 1-N
-    order ||--|| review : 1-1
-    order ||--|| transaction : 1-1
-    
-    transaction ||--|| guarantee : 1-1
+    %% 需求模块
+    demand_type {
+        int type_id PK
+        varchar type_name
+        int parent_id
+        int sort
+        tinyint status
+    }
+    demand {
+        bigint demand_id PK
+        bigint publisher_id FK
+        int type_id FK
+        varchar title
+        text description
+        varchar location
+        decimal reward
+        tinyint status
+        datetime deadline
+        datetime publish_time
+    }
+    demand_tag {
+        int tag_id PK
+        varchar tag_name
+        varchar category
+        int use_count
+    }
+    demand_tag_relation {
+        bigint id PK
+        bigint demand_id FK
+        int tag_id FK
+    }
+
+    %% 订单&进度
+    order_info {
+        bigint order_id PK
+        bigint demand_id FK
+        bigint publisher_id FK
+        bigint provider_id FK
+        tinyint status
+        decimal reward_amount
+        datetime create_time
+    }
+    order_progress {
+        bigint progress_id PK
+        bigint order_id FK
+        tinyint status
+        varchar description
+        bigint operator_id FK
+        datetime operate_time
+    }
+
+    %% 交易&担保
+    transaction {
+        bigint transaction_id PK
+        bigint order_id FK
+        bigint payer_id FK
+        bigint payee_id FK
+        decimal amount
+        tinyint type
+        tinyint status
+        datetime create_time
+    }
+    guarantee {
+        bigint guarantee_id PK
+        bigint transaction_id FK
+        decimal amount
+        tinyint status
+        datetime create_time
+    }
+
+    %% 匹配模块
+    match_rule {
+        int rule_id PK
+        varchar rule_name
+        tinyint rule_type
+        int priority
+        tinyint status
+    }
+    match_result {
+        bigint match_id PK
+        bigint demand_id FK
+        bigint user_id FK
+        int rule_id FK
+        int match_score
+        tinyint status
+    }
+
+    %% 消息、评价、售后
+    message {
+        bigint message_id PK
+        bigint sender_id FK
+        bigint receiver_id FK
+        bigint order_id FK
+        text content
+        tinyint is_read
+        datetime send_time
+    }
+    review {
+        bigint review_id PK
+        bigint order_id FK
+        bigint reviewer_id FK
+        bigint target_user_id FK
+        tinyint rating
+        text content
+        tinyint is_anonymous
+    }
+    after_sale {
+        bigint after_sale_id PK
+        bigint order_id FK
+        bigint applicant_id FK
+        tinyint status
+        datetime apply_time
+    }
+
+    %% 关系映射
+    user ||--|| user_credit : "一对一"
+    user ||--|| campus_auth : "一对一"
+    user ||--o{ demand : "一对多"
+    user ||--o{ order_info : "一对多"
+    user ||--o{ message : "一对多"
+    user ||--o{ review : "一对多"
+    user ||--o{ transaction : "一对多"
+    user ||--o{ match_result : "一对多"
+
+    demand_type ||--o{ demand : "一对多"
+    demand ||--o{ demand_tag_relation : "一对多"
+    demand_tag ||--o{ demand_tag_relation : "一对多"
+    demand ||--o{ match_result : "一对多"
+    demand ||--|| order_info : "一对一"
+
+    order_info ||--o{ order_progress : "一对多"
+    order_info ||--|| transaction : "一对一"
+    order_info ||--|| review : "一对一"
+    order_info ||--o{ message : "一对多"
+    order_info ||--o{ after_sale : "一对多"
+
+    transaction ||--|| guarantee : "一对一"
+    match_rule ||--o{ match_result : "一对多"
+
